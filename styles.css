@@ -34,10 +34,63 @@ header {
     gap: 0.5rem;
 }
 
+.catholic-symbols {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
 .cross-symbol {
     font-size: 2.5rem;
     color: #FFD700;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+.sacred-heart {
+    font-size: 2rem;
+    color: #DC143C;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+.dove-symbol {
+    font-size: 2rem;
+    color: #F8F8FF;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes glow {
+    from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px #FFD700; }
+    to { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px #FFD700, 0 0 30px #FFD700; }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.latin-motto {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #FFD700;
+    margin: 0.5rem 0 0.2rem 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.motto-translation {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin: 0;
+    font-style: italic;
 }
 
 header h1 {
@@ -415,6 +468,225 @@ footer {
     margin-top: 0.5rem;
     opacity: 0.9;
     font-family: 'Crimson Text', serif;
+    position: relative;
+}
+
+.bible-verse::before {
+    content: "✝";
+    margin-right: 0.5rem;
+    color: #FFD700;
+}
+
+/* Prayer of the Day Styles */
+.prayer-of-the-day {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #8B4513;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 5px 20px rgba(139, 69, 19, 0.1);
+    position: relative;
+}
+
+.prayer-of-the-day::before {
+    content: "✝";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #8B4513;
+    color: #FFD700;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.prayer-of-the-day h3 {
+    text-align: center;
+    color: #8B4513;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #8B4513;
+    padding-bottom: 0.5rem;
+}
+
+.prayer-text {
+    text-align: center;
+    line-height: 1.8;
+}
+
+.prayer-text p {
+    margin: 0.5rem 0;
+    color: #555;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.05rem;
+}
+
+.prayer-text p:last-child {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #8B4513;
+}
+
+/* Enhanced Resource Cards */
+.resource-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #8B4513;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 20px rgba(139, 69, 19, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.resource-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8B4513 0%, #FFD700 50%, #8B4513 100%);
+}
+
+.resource-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(139, 69, 19, 0.2);
+    border-color: #FFD700;
+}
+
+.resource-card h4 {
+    color: #8B4513;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #8B4513;
+    padding-bottom: 0.5rem;
+}
+
+.resource-card li {
+    padding: 0.4rem 0;
+    color: #555;
+    position: relative;
+    padding-left: 1.8rem;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 0.2rem 0;
+}
+
+.resource-card li:hover {
+    color: #8B4513;
+    background-color: rgba(139, 69, 19, 0.05);
+    padding-left: 2rem;
+}
+
+.resource-card li::before {
+    content: "✝";
+    position: absolute;
+    left: 0;
+    color: #8B4513;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.resource-card li:hover::before {
+    color: #FFD700;
+    transform: scale(1.2);
+}
+
+/* Catholic Color Enhancements */
+.agenda-item {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-left: 4px solid #8B4513;
+    background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+    border-radius: 0 8px 8px 0;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
+}
+
+.agenda-item::before {
+    content: "✝";
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #8B4513;
+    color: #FFD700;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Enhanced Sub-card with Catholic styling */
+.sub-card {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
+    position: relative;
+}
+
+.sub-card::before {
+    content: "📖";
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    background: #8B4513;
+    color: #FFD700;
+    padding: 0.3rem;
+    border-radius: 50%;
+    font-size: 0.8rem;
+}
+
+/* USCCB Daily Readings Button */
+.daily-readings-button {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.usccb-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+    color: white;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+    transition: all 0.3s ease;
+    border: 2px solid #8B4513;
+    font-family: 'Crimson Text', serif;
+}
+
+.usccb-button:hover {
+    background: linear-gradient(135deg, #A0522D 0%, #8B4513 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+    color: #FFD700;
+    border-color: #FFD700;
+}
+
+.usccb-button:active {
+    transform: translateY(-1px);
 }
 
 /* Responsive Design */
@@ -502,5 +774,85 @@ footer {
     
     .month-selector {
         display: none;
+    }
+}
+
+/* Daily Saint Styles */
+.daily-saint {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 15px;
+    border: 1px solid #FFD700;
+}
+
+.daily-saint small {
+    color: #FFD700;
+    font-weight: 600;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.9rem;
+}
+
+/* Liturgical Color Indicator */
+.liturgical-indicator {
+    animation: liturgicalGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes liturgicalGlow {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+
+/* Enhanced Catholic Mobile Responsiveness */
+@media (max-width: 768px) {
+    .catholic-symbols {
+        gap: 1rem;
+    }
+    
+    .cross-symbol, .sacred-heart, .dove-symbol {
+        font-size: 1.8rem;
+    }
+    
+    .latin-motto {
+        font-size: 1rem;
+        text-align: center;
+    }
+    
+    .motto-translation {
+        font-size: 0.8rem;
+        text-align: center;
+    }
+    
+    .prayer-of-the-day {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .prayer-text p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .catholic-symbols {
+        flex-direction: row;
+        gap: 0.8rem;
+    }
+    
+    .cross-symbol, .sacred-heart, .dove-symbol {
+        font-size: 1.5rem;
+    }
+    
+    .prayer-of-the-day {
+        padding: 1rem;
+    }
+    
+    .prayer-of-the-day h3 {
+        font-size: 1.3rem;
+    }
+    
+    .daily-saint {
+        margin: 0.3rem 0;
+        padding: 0.3rem 0.8rem;
     }
 }

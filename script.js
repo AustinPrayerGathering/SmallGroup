@@ -5,8 +5,6 @@ const agendaData = {
     "2025-09": {
         title: "Small Group Prayer Gathering",
         date: "Friday, September 27, 2025",
-        time: "4:00 PM",
-        location: "Pearl & Basil's House, 1603 Blackjack Dr, Round Rock, TX",
         items: [
             {
                 time: "4:00 - 4:20 PM",
@@ -81,6 +79,7 @@ const monthNames = [
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     updateCurrentAgenda();
+    updateNavigationButtons();
     loadPastAgendas();
     initializeCalendarButtons();
     
@@ -117,17 +116,43 @@ function initializeNavigation() {
 
 // Month navigation
 function navigateMonth(direction) {
-    currentMonth += direction;
+    const newMonth = currentMonth + direction;
+    let newYear = currentYear;
     
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    } else if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
+    // Handle year transitions
+    if (newMonth > 11) {
+        newMonth = 0;
+        newYear++;
+    } else if (newMonth < 0) {
+        newMonth = 11;
+        newYear--;
     }
     
+    // Prevent navigation to months prior to September 2025
+    if (newYear < 2025 || (newYear === 2025 && newMonth < 8)) {
+        return; // Don't allow navigation before September 2025
+    }
+    
+    currentMonth = newMonth;
+    currentYear = newYear;
     updateCurrentAgenda();
+    updateNavigationButtons();
+}
+
+// Update navigation buttons based on current date
+function updateNavigationButtons() {
+    const prevBtn = document.getElementById('prev-month');
+    
+    // Disable previous button if we're at September 2025
+    if (currentYear === 2025 && currentMonth === 8) {
+        prevBtn.disabled = true;
+        prevBtn.style.opacity = '0.5';
+        prevBtn.style.cursor = 'not-allowed';
+    } else {
+        prevBtn.disabled = false;
+        prevBtn.style.opacity = '1';
+        prevBtn.style.cursor = 'pointer';
+    }
 }
 
 // Update current agenda display
@@ -142,8 +167,6 @@ function updateCurrentAgenda() {
         // Update agenda header
         agendaTitle.textContent = agenda.title;
         agendaDate.textContent = agenda.date;
-        agendaTime.textContent = agenda.time;
-        agendaLocation.innerHTML = `<a href="https://maps.google.com/?q=1603+Blackjack+Dr,+Round+Rock,+TX" target="_blank" rel="noopener noreferrer">${agenda.location}</a>`;
         
         // Update agenda content
         agendaContent.innerHTML = agenda.items.map(item => `
@@ -163,8 +186,6 @@ function updateCurrentAgenda() {
         // No agenda for this month
         agendaTitle.textContent = 'Small Group Prayer Gathering';
         agendaDate.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-        agendaTime.textContent = '4:00 PM';
-        agendaLocation.innerHTML = '<a href="https://maps.google.com/?q=1603+Blackjack+Dr,+Round+Rock,+TX" target="_blank" rel="noopener noreferrer">Pearl & Basil\'s House, 1603 Blackjack Dr, Round Rock, TX</a>';
         
         agendaContent.innerHTML = `
             <div class="agenda-item">
@@ -250,7 +271,83 @@ function addInteractiveFeatures() {
 }
 
 // Initialize interactive features when DOM is loaded
-document.addEventListener('DOMContentLoaded', addInteractiveFeatures);
+document.addEventListener('DOMContentLoaded', function() {
+    addInteractiveFeatures();
+    addCatholicFeatures();
+});
+
+// Catholic-specific interactive features
+function addCatholicFeatures() {
+    // Add prayer copying functionality
+    const prayerItems = document.querySelectorAll('.resource-card li');
+    prayerItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const prayerName = this.textContent;
+            navigator.clipboard.writeText(prayerName).then(() => {
+                // Visual feedback with Catholic styling
+                const originalText = this.textContent;
+                this.innerHTML = '✝ Copied to clipboard!';
+                this.style.color = '#8B4513';
+                this.style.fontWeight = 'bold';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.color = '';
+                    this.style.fontWeight = '';
+                }, 2000);
+            });
+        });
+    });
+
+    // Add blessing animation to cross symbols
+    const crossSymbols = document.querySelectorAll('.cross-symbol, .catholic-symbols .cross-symbol');
+    crossSymbols.forEach(cross => {
+        cross.addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = 'glow 1s ease-in-out';
+            }, 10);
+        });
+    });
+
+    
+    // Add liturgical color indicator
+    addLiturgicalColor();
+}
+
+
+// Add liturgical color indicator
+function addLiturgicalColor() {
+    const liturgicalColors = {
+        'Advent': '#663399', // Purple
+        'Christmas': '#FFFFFF', // White
+        'Ordinary': '#228B22', // Green
+        'Lent': '#663399', // Purple
+        'Easter': '#FFFFFF', // White
+        'Pentecost': '#DC143C' // Red
+    };
+    
+    // Simplified - assume Ordinary Time for now
+    const currentSeason = 'Ordinary';
+    const color = liturgicalColors[currentSeason];
+    
+    // Add liturgical color indicator
+    const nav = document.querySelector('nav');
+    if (nav && !document.querySelector('.liturgical-indicator')) {
+        const indicator = document.createElement('div');
+        indicator.className = 'liturgical-indicator';
+        indicator.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: ${color};
+            box-shadow: 0 0 10px ${color};
+        `;
+        nav.style.position = 'relative';
+        nav.appendChild(indicator);
+    }
+}
 
 // Calendar Integration Functions
 function initializeCalendarButtons() {
@@ -274,8 +371,6 @@ function getCurrentEventData() {
         return {
             title: agenda.title,
             date: agenda.date,
-            time: agenda.time,
-            location: agenda.location,
             description: generateEventDescription(agenda)
         };
     }
@@ -283,8 +378,6 @@ function getCurrentEventData() {
     return {
         title: 'Monthly Prayer Gathering',
         date: `${monthNames[currentMonth]} ${currentYear}`,
-        time: '4:00 PM',
-        location: 'Pearl & Basil\'s House, 1603 Blackjack Dr, Round Rock, TX',
         description: 'Join us for our monthly small group prayer gathering with community prayer, scripture reading, and fellowship.'
     };
 }
@@ -296,12 +389,12 @@ function generateEventDescription(agenda) {
         description += `${item.time} - ${item.title}\n`;
     });
     
-    description += `\nLocation: ${agenda.location}\n\nAll are welcome to join us in prayer and fellowship.`;
+    description += `\n\nAll are welcome to join us in prayer and fellowship.`;
     
     return description;
 }
 
-function parseEventDate(dateString, timeString) {
+function parseEventDate(dateString) {
     // Parse the date string (e.g., "Sunday, October 27, 2025")
     const dateParts = dateString.match(/(\w+),\s+(\w+)\s+(\d+),\s+(\d+)/);
     if (!dateParts) return new Date();
@@ -309,21 +402,9 @@ function parseEventDate(dateString, timeString) {
     const [, , monthName, day, year] = dateParts;
     const monthIndex = monthNames.indexOf(monthName);
     
-    // Parse time (e.g., "4:00 PM")
-    const timeParts = timeString.match(/(\d+):(\d+)\s*(AM|PM)?/);
-    let hours = 16; // Default to 4 PM
-    let minutes = 0;
-    
-    if (timeParts) {
-        hours = parseInt(timeParts[1]);
-        minutes = parseInt(timeParts[2]) || 0;
-        
-        if (timeParts[3] === 'PM' && hours !== 12) {
-            hours += 12;
-        } else if (timeParts[3] === 'AM' && hours === 12) {
-            hours = 0;
-        }
-    }
+    // Default to 4 PM for calendar events
+    const hours = 16;
+    const minutes = 0;
     
     return new Date(parseInt(year), monthIndex, parseInt(day), hours, minutes);
 }
@@ -334,7 +415,7 @@ function formatDateForCalendar(date) {
 
 function addToGoogleCalendar() {
     const eventData = getCurrentEventData();
-    const startDate = parseEventDate(eventData.date, eventData.time);
+    const startDate = parseEventDate(eventData.date);
     const endDate = new Date(startDate.getTime() + (90 * 60 * 1000)); // 1.5 hours duration
     
     const googleCalendarUrl = new URL('https://calendar.google.com/calendar/render');
@@ -342,7 +423,6 @@ function addToGoogleCalendar() {
     googleCalendarUrl.searchParams.set('text', eventData.title);
     googleCalendarUrl.searchParams.set('dates', `${formatDateForCalendar(startDate)}/${formatDateForCalendar(endDate)}`);
     googleCalendarUrl.searchParams.set('details', eventData.description);
-    googleCalendarUrl.searchParams.set('location', '1603 Blackjack Dr, Round Rock, TX 78664');
     googleCalendarUrl.searchParams.set('sf', 'true');
     googleCalendarUrl.searchParams.set('output', 'xml');
     
@@ -351,7 +431,7 @@ function addToGoogleCalendar() {
 
 function downloadICalFile() {
     const eventData = getCurrentEventData();
-    const startDate = parseEventDate(eventData.date, eventData.time);
+    const startDate = parseEventDate(eventData.date);
     const endDate = new Date(startDate.getTime() + (90 * 60 * 1000)); // 1.5 hours duration
     
     const icalContent = `BEGIN:VCALENDAR
@@ -364,7 +444,6 @@ DTSTART:${formatDateForCalendar(startDate)}
 DTEND:${formatDateForCalendar(endDate)}
 SUMMARY:${eventData.title}
 DESCRIPTION:${eventData.description.replace(/\n/g, '\\n')}
-LOCATION:1603 Blackjack Dr\\, Round Rock\\, TX 78664
 STATUS:CONFIRMED
 SEQUENCE:0
 BEGIN:VALARM
