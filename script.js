@@ -347,6 +347,7 @@ function addLiturgicalColor() {
         nav.style.position = 'relative';
         nav.appendChild(indicator);
     }
+    
 }
 
 // Calendar Integration Functions
