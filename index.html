@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Small Group Prayer Gathering - Monthly Agendas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="cross-symbol">✝</div>
+    <h1>Small Group Prayer Gathering</h1>
+                <p class="subtitle">Monthly Agendas & Prayer Schedule</p>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="#current-agenda" class="nav-link active">Current Agenda</a></li>
+                <li><a href="#past-agendas" class="nav-link">Past Agendas</a></li>
+                <li><a href="#resources" class="nav-link">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- Current Agenda Section -->
+            <section id="current-agenda" class="agenda-section active">
+                <div class="section-header">
+                    <h2>Current Month's Agenda</h2>
+                    <div class="month-selector">
+                        <button id="prev-month" class="month-btn">‹</button>
+                        <span id="current-month-year"></span>
+                        <button id="next-month" class="month-btn">›</button>
+                    </div>
+                </div>
+                
+                <div class="agenda-card">
+                    <div class="agenda-header">
+                        <h3 id="agenda-title">Small Group Prayer Gathering</h3>
+                        <div class="agenda-meta">
+                            <span class="date" id="agenda-date"></span>
+                            <span class="time" id="agenda-time">4:00 PM</span>
+                            <span class="location" id="agenda-location">
+                                <a href="https://maps.google.com/?q=1603+Blackjack+Dr,+Round+Rock,+TX" target="_blank" rel="noopener noreferrer">
+                                    Pearl & Basil's House, 1603 Blackjack Dr, Round Rock, TX
+                                </a>
+                            </span>
+                        </div>
+                        <div class="calendar-buttons">
+                            <button id="add-to-google-calendar" class="calendar-btn google-cal">
+                                📅 Add to Google Calendar
+                            </button>
+                            <button id="download-ical" class="calendar-btn ical">
+                                📥 Download iCal
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="agenda-content" id="agenda-content">
+                        <!-- Dynamic content will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Past Agendas Section -->
+            <section id="past-agendas" class="agenda-section">
+                <h2>Past Agendas</h2>
+                <div class="agenda-archive" id="agenda-archive">
+                    <!-- Past agendas will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources" class="agenda-section">
+                <h2>Prayer Resources</h2>
+                <div class="agenda-item">
+                    <h4>Resources Coming Soon</h4>
+                    <p>Prayer resources and materials will be added here as they become available.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Small Group Prayer Gathering. May God bless our time together in prayer.</p>
+            <p class="bible-verse">"For where two or three gather in my name, there am I with them." - Matthew 18:20</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
